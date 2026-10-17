@@ -8,6 +8,7 @@ interface IMovie {
     duration: string;
     rating: number;
     mood: string;
+    trailerKey?: string | null;
 }
 
 export { IMovie };

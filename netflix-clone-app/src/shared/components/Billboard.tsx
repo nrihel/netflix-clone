@@ -3,9 +3,12 @@ import { IMovie } from "@/types/movie.types";
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import MovieInfoModal from "./MovieInfoModal";
+import ReactPlayer from "react-player";
 
 const Billboard = () => {
     const [randomMovie, setRandomMovie] = useState<IMovie | null>(null);
+    const [showInfoModal, setShowInfoModal] = useState(false);
     const videoRef = useRef<HTMLVideoElement | null>(null);
     
     const fetchMovies = async () => {
@@ -24,21 +27,28 @@ const Billboard = () => {
         }
     };
 
+    const handleOpenInfoModal = ()=> {
+        setShowInfoModal(true);
+    }
+
     useEffect(() => {
         fetchMovies();
     }, []);
 
     return <div className="h-screen relative">
-        <video
-            src="https://developer.mozilla.org/shared-assets/videos/flower.mp4"
-            poster={randomMovie?.thumbnailUrl}
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-        />
+        {randomMovie?.trailerKey && (
+  <div className="w-full h-full">
+    <ReactPlayer
+      src={`https://www.youtube.com/watch?v=${randomMovie.trailerKey}`}
+      width="100%"
+      height="100%"
+      playing
+      muted
+      loop
+      controls={false}
+    />
+  </div>
+)}
         <div className="absolute top-1/2 left-10 -translate-y-1/2 
         transform flex flex-col gap-4">
             <h1 className="text-[5xl] text-white font-bold">{randomMovie?.title}</h1>
@@ -57,7 +67,7 @@ const Billboard = () => {
                 </button>
                 <button className="text-lg font-semibold bg-[#6d6d6eb3] py-2 px-5 
                 text-white rounded-sm cursor-pointer flex gap-4 hover:bg-[#6d6d6e66]"
-                onClick={handlePlayButtonClick}>
+                onClick={handleOpenInfoModal}>
                     <Image
                         src="/assets/info.svg"
                         width={24}
@@ -68,7 +78,14 @@ const Billboard = () => {
                 </button>
             </div>
         </div>
-    </div>;
+        {showInfoModal ? (
+            <MovieInfoModal 
+            showInfoModal={showInfoModal} 
+            setShowInfoModal={setShowInfoModal}
+            movieData={randomMovie}
+            />
+        ) : null}
+    </div>
 };
 
 export default Billboard;
