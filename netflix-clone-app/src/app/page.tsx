@@ -1,3 +1,9 @@
+import Billboard from "@/shared/components/Billboard";
+import Navbar from "@/shared/components/Navbar";
+
 export default function Home() {
-  return <div>Home</div>;
+  return <div>
+    <Navbar />
+    <Billboard />
+  </div>;
 }
