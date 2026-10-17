@@ -61,16 +61,14 @@ const Navbar = () => {
                 alt="Notification"
             />
             <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <button className="text-white cursor-pointer">
+                <DropdownMenuTrigger className="text-white cursor-pointer">   
                         <Image
                             src="/assets/profile.png"
                             height={32}
                             width={32}
                             alt="Profile"
                             className="rounded-[4px]"
-                        />
-                    </button>
+                        /> 
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="bg-[#000000e6] text-white 
                 border-none w-[200px]">
