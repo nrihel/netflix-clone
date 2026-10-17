@@ -10,7 +10,7 @@ const Billboard = () => {
     
     const fetchMovies = async () => {
         try {
-            const { data } = await axios.get("api/movies");
+            const { data } = await axios.get("/api/movies");
             const randomNum = Math.floor(Math.random() * data.length);
             setRandomMovie(data[randomNum]);
         } catch (error) {
@@ -18,15 +18,19 @@ const Billboard = () => {
         }
     };
 
+    const handlePlayButtonClick = () => {
+        if (videoRef.current) {
+            videoRef.current.requestFullscreen();
+        }
+    };
+
     useEffect(() => {
         fetchMovies();
     }, []);
 
-    console.log("randomMovie: ", randomMovie);
-
     return <div className="h-screen relative">
         <video
-            src={randomMovie?.videoUrl}
+            src="https://developer.mozilla.org/shared-assets/videos/flower.mp4"
             poster={randomMovie?.thumbnailUrl}
             ref={videoRef}
             className="w-full h-full object-cover"
@@ -39,14 +43,28 @@ const Billboard = () => {
         transform flex flex-col gap-4">
             <h1 className="text-[5xl] text-white font-bold">{randomMovie?.title}</h1>
             <p className="text-white">{randomMovie?.description}</p>
-            <div>
-                <button>
+            <div className="flex gap-2">
+                <button className="text-lg font-semibold bg-white py-2 px-5 
+                text-black rounded-sm cursor-pointer flex gap-4 hover:bg-[#ffffffbf]"
+                onClick={handlePlayButtonClick}>
                     <Image
                         src="/assets/play.svg"
                         width={24}
                         height={24}
                         alt="Play video"
                     />
+                    Play
+                </button>
+                <button className="text-lg font-semibold bg-[#6d6d6eb3] py-2 px-5 
+                text-white rounded-sm cursor-pointer flex gap-4 hover:bg-[#6d6d6e66]"
+                onClick={handlePlayButtonClick}>
+                    <Image
+                        src="/assets/info.svg"
+                        width={24}
+                        height={24}
+                        alt="Play video"
+                    />
+                    More Info
                 </button>
             </div>
         </div>
