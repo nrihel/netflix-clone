@@ -49,8 +49,17 @@ const Billboard = () => {
         width={1260} height={1260} className="w-full h-full object-cover"
       />
     )}
-  </div>
+  </div>  
 )}
+{isPlaying && (
+            <button
+                type="button"
+                onClick={() => setIsPlaying(false)}
+                className="absolute top-16 right-6 z-10 rounded bg-white px-4 py-2 text-black cursor-pointer"
+            >
+                Back to poster
+            </button>
+        )}
         <div className={`${isPlaying ? "hidden" : "flex"} absolute top-1/2 left-10 
         -translate-y-1/2 transform flex-col gap-4`}>
             <h1 className="text-[5xl] text-white font-bold">{randomMovie?.title}</h1>
