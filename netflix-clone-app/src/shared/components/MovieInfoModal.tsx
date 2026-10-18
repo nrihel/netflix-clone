@@ -1,8 +1,8 @@
-import { useRef } from "react";
+import { useState } from "react";
+import ReactPlayer from "react-player";
 import { Dialog, DialogContent } from "../ui/Dialog"
 import { IMovie } from "@/types/movie.types";
 import Image from "next/image";
-import { Dot } from "lucide-react";
 
 interface IMovieInfoModalProps {
     showInfoModal: boolean;
@@ -14,12 +14,10 @@ const MovieInfoModal = ({
     setShowInfoModal, 
     movieData 
 }: IMovieInfoModalProps) => {
-    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     const handlePlayButtonClick = () => {
-        if(videoRef.current) {
-            videoRef.current.requestFullscreen();
-        }
+        setIsPlaying(true);
     };
     
     return (
@@ -27,16 +25,27 @@ const MovieInfoModal = ({
         <DialogContent className="bg-[#181818] border-none min-w-[700px] p-0">
             <div className="flex flex-col gap-4 w-full">
                 <div className="relative">
-                    <video 
-                        ref={videoRef}
-                        src={movieData?.videoUrl}
-                        poster={movieData?.thumbnailUrl}
-                        className="w-full h-[350px] object-cover"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                    />
+                    {movieData?.trailerKey ? (
+                        <div className="w-full h-[350px] overflow-hidden">
+                            <ReactPlayer
+                                src={`https://www.youtube.com/watch?v=${movieData.trailerKey}`}
+                                width="100%"
+                                height="100%"
+                                playing={isPlaying}
+                                muted={!isPlaying}
+                                controls={isPlaying}
+                                onError={(error) => console.log("Trailer error:", error)}
+                            />
+                        </div>
+                            ) : (
+                            <Image
+                                src={movieData?.thumbnailUrl || "/assets/placeholder.png"}
+                                alt={movieData?.title || "Movie poster"}
+                                width={700}
+                                height={350}
+                                className="w-full h-[350px] object-cover"
+                            />
+                    )}
                     <div className="absolute bottom-4 left-6 flex flex-col gap-5 
                     items-center">
                         <h1 className="text-4xl text-white font-bold self-start">
@@ -91,13 +100,12 @@ const MovieInfoModal = ({
                         <p className="textShadow text-base text-white">
                             {movieData?.genre}
                         </p>
-                        <Dot className="text-[#646464]"/>
                     </div>
                 </div>
             </div>
         </DialogContent>
     </Dialog>
-    )
-}
+    );
+};
 
 export default MovieInfoModal;
