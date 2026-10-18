@@ -2,7 +2,7 @@
 import { IMovie } from "@/types/movie.types";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MovieInfoModal from "./MovieInfoModal";
 import ReactPlayer from "react-player";
 import { Fullscreen } from "lucide-react";
@@ -10,7 +10,7 @@ import { Fullscreen } from "lucide-react";
 const Billboard = () => {
     const [randomMovie, setRandomMovie] = useState<IMovie | null>(null);
     const [showInfoModal, setShowInfoModal] = useState(false);
-    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
     
     const fetchMovies = async () => {
         try {
@@ -23,9 +23,7 @@ const Billboard = () => {
     };
 
     const handlePlayButtonClick = () => {
-        if (videoRef.current) {
-            videoRef.current.requestFullscreen();
-        }
+        setIsPlaying(true);
     };
 
     const handleOpenInfoModal = ()=> {
@@ -39,17 +37,22 @@ const Billboard = () => {
     return <div className="h-screen relative">
         {randomMovie?.trailerKey && (
   <div className="w-full h-full">
-    <Image
-        src={randomMovie?.thumbnailUrl || "/assets/placeholder.png"}
-        alt={randomMovie?.title || "Movie poster"}
-        width={1260}
-        height={1260}
-        className="w-full h-full object-cover"
-    />
+    {isPlaying ? (
+      <ReactPlayer
+        src={`https://www.youtube.com/watch?v=${randomMovie.trailerKey}`}
+        width="100%" height="100%" playing controls
+      />
+    ) : (
+      <Image
+        src={randomMovie.thumbnailUrl || "/assets/placeholder.png"}
+        alt={randomMovie.title || "Movie poster"}
+        width={1260} height={1260} className="w-full h-full object-cover"
+      />
+    )}
   </div>
 )}
-        <div className="absolute top-1/2 left-10 -translate-y-1/2 
-        transform flex flex-col gap-4">
+        <div className={`${isPlaying ? "hidden" : "flex"} absolute top-1/2 left-10 
+        -translate-y-1/2 transform flex-col gap-4`}>
             <h1 className="text-[5xl] text-white font-bold">{randomMovie?.title}</h1>
             <p className="text-white">{randomMovie?.description}</p>
             <div className="flex gap-2">

@@ -69,8 +69,8 @@ const MovieInfoModal = ({
                             >
                                 <Image 
                                     src="/assets/plus.svg" 
-                                    width={24} 
-                                    height={24} 
+                                    width={23} 
+                                    height={23} 
                                     alt="Add" 
                                 />
                             </button>
