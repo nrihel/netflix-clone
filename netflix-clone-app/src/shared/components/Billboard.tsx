@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import MovieInfoModal from "./MovieInfoModal";
 import ReactPlayer from "react-player";
+import { Fullscreen } from "lucide-react";
 
 const Billboard = () => {
     const [randomMovie, setRandomMovie] = useState<IMovie | null>(null);
@@ -38,14 +39,12 @@ const Billboard = () => {
     return <div className="h-screen relative">
         {randomMovie?.trailerKey && (
   <div className="w-full h-full">
-    <ReactPlayer
-      src={`https://www.youtube.com/watch?v=${randomMovie.trailerKey}`}
-      width="100%"
-      height="100%"
-      playing
-      muted
-      loop
-      controls={false}
+    <Image
+        src={randomMovie?.thumbnailUrl || "/assets/placeholder.png"}
+        alt={randomMovie?.title || "Movie poster"}
+        width={1260}
+        height={1260}
+        className="w-full h-full object-cover"
     />
   </div>
 )}
