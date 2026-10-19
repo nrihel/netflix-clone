@@ -4,10 +4,12 @@ import Image from "next/image";
 import { IMovie } from "@/types/movie.types";
 import { useRef, useState } from "react";
 import MoviePopup from "./MoviePopup";
+import MovieInfoModal from "./MovieInfoModal";
 
 const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
     const [movieData, setMovieData] = useState<IMovie | null>(null);
     const [movieID, setMovieId] = useState<number | null>(null);
+    const [showInfoModal, setShowInfoModal] = useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const rowRef = useRef<HTMLDivElement>(null);
@@ -38,8 +40,14 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
         setMovieId(null);
     }
 
+    const handleOpenInfoModal = () => {
+        setMovieId(null);
+        setShowInfoModal(true);
+    }
+
     return (
-        <div className="flex flex-col gap-2 relative my-[3vw] px-[5%]">
+        <>
+            <div className="flex flex-col gap-2 relative my-[3vw] px-[5%]">
             {movies.length ? <h2 className="text-[#e5e5e5] font-medium text-xl">{label}</h2> : null}
             <div className="flex items-center gap-2">
                 <button
@@ -80,7 +88,10 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
                             top: popupPosition.top,
                             }}
                         >
-                            <MoviePopup movie={movieData} />
+                            <MoviePopup 
+                                movie={movieData} 
+                                handleOpenInfoModal={handleOpenInfoModal}
+                                />
                         </div>
                         )}
                     </div>
@@ -95,6 +106,14 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
                 </button>
             </div>
         </div>
+        {showInfoModal ? (
+            <MovieInfoModal 
+                showInfoModal={showInfoModal}
+                setShowInfoModal={setShowInfoModal}
+                movieData={movieData}
+                />
+        ) : null}
+        </>        
     );
 };
 

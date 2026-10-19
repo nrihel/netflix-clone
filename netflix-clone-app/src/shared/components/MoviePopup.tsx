@@ -4,7 +4,13 @@ import ReactPlayer from "react-player";
 import React from "react";
 import { useRef, useState } from "react";
 
-const MoviePopup = ({ movie }: {movie: IMovie }) => {
+const MoviePopup = ({ 
+    movie, 
+    handleOpenInfoModal, 
+}: { 
+    movie: IMovie; 
+    handleOpenInfoModal: () => void; 
+}) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const fullscreenRef = useRef<HTMLDivElement>(null);
@@ -87,7 +93,8 @@ const MoviePopup = ({ movie }: {movie: IMovie }) => {
                         </button>
                     </div>
                     <button className="cursor-pointer bg-[#2a2a2a99] border-2 border-[#ffffff80]
-                    p-2 rounded-full hover:bg-[#ffffff1a] hover:border-white">
+                    p-2 rounded-full hover:bg-[#ffffff1a] hover:border-white"
+                        onClick={handleOpenInfoModal}>
                         <Image
                             src={"/assets/down-arrow.svg"}
                             width={24}
