@@ -22,12 +22,13 @@ const MoviePopup = ({ movie }: {movie: IMovie }) => {
         transition scale-75 hover:scale-100 hover:-translate-y-6 transition-transform
         duration-300 ease-in-out"
         >
-            <ReactPlayer 
-                ref={videoRef} 
-                src={`https://www.youtube.com/watch?v=${movie.trailerKey}`}
-                poster={movie.thumbnailUrl} 
-                className={clsx({ hidden: !isVideoPlaying })}
-            />
+            <div className="{isVideoPlaying ? "" : "hidden"}>
+                <ReactPlayer 
+                    ref={videoRef} 
+                    src={`https://www.youtube.com/watch?v=${movie.trailerKey}`}
+                />
+            </div>
+            {!isVideoPlaying && (
             <div className="relative w-80 h-[140px]">
                 <Image
                     className="object-cover"
@@ -36,6 +37,7 @@ const MoviePopup = ({ movie }: {movie: IMovie }) => {
                     fill
                 />
             </div>
+            )}
             <div className="bg-[#181818] p-4">
                 <div className="flex justify-between mb-2 items-center">
                     <div className="flex gap-2 items-center">
