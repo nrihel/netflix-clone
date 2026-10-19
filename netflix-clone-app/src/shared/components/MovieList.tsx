@@ -9,6 +9,7 @@ const MovieList = () => {
     const fetchMovies = async () => {
         try {
             const { data } = await axios.get("/api/movies");
+            setMovies(data);
         }   catch (error) {
                 console.log(error);
         }

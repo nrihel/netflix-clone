@@ -14,7 +14,8 @@ const movies = [
     "softcore": false,
     "video": false,
     "vote_average": 8.468,
-    "vote_count": 5593
+    "vote_count": 5593,
+    "genre": "Action"
   },
   {
     "adult": false,
@@ -31,7 +32,8 @@ const movies = [
     "softcore": false,
     "video": false,
     "vote_average": 7.721,
-    "vote_count": 765
+    "vote_count": 765,
+    "genre": "Horror"
   },
   {
     "adult": false,
@@ -48,7 +50,8 @@ const movies = [
     "softcore": false,
     "video": false,
     "vote_average": 7.877,
-    "vote_count": 362
+    "vote_count": 362,
+    "genre": "action"
   },
   {
     "adult": false,
@@ -65,7 +68,8 @@ const movies = [
     "softcore": false,
     "video": false,
     "vote_average": 8.009,
-    "vote_count": 4151
+    "vote_count": 4151,
+    "genre": "action"
   },
   {
     "adult": false,
@@ -82,7 +86,8 @@ const movies = [
     "softcore": false,
     "video": false,
     "vote_average": 7.308,
-    "vote_count": 967
+    "vote_count": 967,
+    "genre": "Horror"
   },
   {
     "adult": false,

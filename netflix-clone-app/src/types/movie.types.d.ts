@@ -1,5 +1,5 @@
 interface IMovie {
-    _id: string;
+    id: number;
     title: string;
     description: string;
     videoUrl: string;

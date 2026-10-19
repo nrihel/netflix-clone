@@ -96,11 +96,6 @@ const MovieInfoModal = ({
                     <p className="text-base leading-[26px] text-white">
                         {movieData?.description}
                     </p>
-                    <div className="flex">
-                        <p className="textShadow text-base text-white">
-                            {movieData?.genre}
-                        </p>
-                    </div>
                 </div>
             </div>
         </DialogContent>
