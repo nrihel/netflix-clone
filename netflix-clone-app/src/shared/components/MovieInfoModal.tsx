@@ -84,10 +84,6 @@ const MovieInfoModal = ({
                         >
                             U/A 13+
                         </span>
-                        <span className="text-[#bcbcbc] text-base"
-                        >
-                            {movieData?.duration}
-                        </span>
                         <span className="text-[#bcbcbc] border border-[#fff6] rounded-[3px]
                         text-xs px-1.5">
                             HD

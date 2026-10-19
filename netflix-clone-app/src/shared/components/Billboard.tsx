@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import MovieInfoModal from "./MovieInfoModal";
 import ReactPlayer from "react-player";
-import { Fullscreen } from "lucide-react";
 
 const Billboard = () => {
     const [randomMovie, setRandomMovie] = useState<IMovie | null>(null);

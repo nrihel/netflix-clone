@@ -9,7 +9,7 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
     const [movieData, setMovieData] = useState<IMovie | null>(null);
     const [movieID, setMovieId] = useState<number | null>(null);
 
-    const handleMouseEnter = (movie: IMovie, movieId: string) => {
+    const handleMouseEnter = (movie: IMovie, movieId: number) => {
         setMovieData(movie);
         setMovieId(movieId);
     };
