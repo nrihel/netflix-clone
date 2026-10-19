@@ -151,6 +151,14 @@ body {
   );
 }
 
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @layer utilities {
   .glow-red {
     box-shadow: 0 0 20px hsl(0 100% 50% / 0.3);

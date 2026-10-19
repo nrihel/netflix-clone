@@ -7,12 +7,13 @@ import { useRef, useState } from "react";
 const MoviePopup = ({ movie }: {movie: IMovie }) => {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+    const fullscreenRef = useRef<HTMLDivElement>(null);
 
         const handlePlayButtonClick = () => {
             if (videoRef.current) {
                 setIsVideoPlaying(true);
                 videoRef.current.play();
-                videoRef.current.requestFullscreen();
+                fullscreenRef.current?.requestFullscreen();
             }
         };
 
@@ -21,21 +22,34 @@ const MoviePopup = ({ movie }: {movie: IMovie }) => {
         transition scale-75 hover:scale-100 hover:-translate-y-6 transition-transform
         duration-300 ease-in-out"
         >
-            <div className={isVideoPlaying ? "" : "hidden"}>
-                <ReactPlayer 
-                    ref={videoRef} 
+            <div
+                ref={fullscreenRef}
+                className="relative bg-black fullscreen:w-screen fullscreen:h-screen"
+                >
+                <div className={isVideoPlaying ? "w-full h-full" : "hidden"}>
+                    <ReactPlayer
+                    ref={videoRef}
                     src={`https://www.youtube.com/watch?v=${movie.trailerKey}`}
-                />
+                    width="100%"
+                    height="100%"
+                    />
+                </div>
+
                 {isVideoPlaying && (
-            <button
-                type="button"
-                onClick={() => setIsVideoPlaying(false)}
-                className="absolute top-16 right-6 z-10 rounded bg-white px-4 py-2 text-black cursor-pointer z-50"
-            >
-                Back
-            </button>
-        )}
-            </div>
+                    <button
+                    type="button"
+                    onClick={() => {
+                        if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                        }
+                        setIsVideoPlaying(false);
+                    }}
+                    className="absolute top-26 right-10 z-50 rounded bg-white px-4 py-2 text-black cursor-pointer"
+                    >
+                    Back
+                    </button>
+                )}
+                </div>
             {!isVideoPlaying && (
             <div className="relative w-80 h-[140px]">
                 <Image
