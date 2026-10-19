@@ -35,28 +35,28 @@ const Billboard = () => {
 
     return <div className="h-screen relative">
         {randomMovie?.trailerKey && (
-  <div className="w-full h-full">
-    {isPlaying ? (
-      <ReactPlayer
-        src={`https://www.youtube.com/watch?v=${randomMovie.trailerKey}`}
-        width="100%" height="100%" playing controls
-      />
-    ) : (
-      <Image
-        src={randomMovie.thumbnailUrl || "/assets/placeholder.png"}
-        alt={randomMovie.title || "Movie poster"}
-        width={1260} height={1260} className="w-full h-full object-cover"
-      />
-    )}
-  </div>  
-)}
-{isPlaying && (
+            <div className="w-full h-full">
+                {isPlaying ? (
+                <ReactPlayer
+                    src={`https://www.youtube.com/watch?v=${randomMovie.trailerKey}`}
+                    width="100%" height="100%" playing controls
+                />
+                ) : (
+                <Image
+                    src={randomMovie.thumbnailUrl || "/assets/placeholder.png"}
+                    alt={randomMovie.title || "Movie poster"}
+                    width={1260} height={1260} className="w-full h-full object-cover"
+                />
+                )}
+            </div>  
+            )}
+            {isPlaying && (
             <button
                 type="button"
                 onClick={() => setIsPlaying(false)}
-                className="absolute top-16 right-6 z-10 rounded bg-white px-4 py-2 text-black cursor-pointer"
+                className="absolute top-24 right-6 z-10 rounded bg-white px-4 py-2 text-black cursor-pointer"
             >
-                Back to poster
+                Back
             </button>
         )}
         <div className={`${isPlaying ? "hidden" : "flex"} absolute top-1/2 left-10 
