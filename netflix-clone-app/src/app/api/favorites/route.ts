@@ -14,11 +14,28 @@ export async function GET() {
 
                 const favorites = await Promise.all(
     user.favorites.map(async (movieId: number) => {    
-        const userFavorite = await fetch(
+        const trailerResponse = await fetch(
+            `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${process.env.TMDB_API_KEY}`
+        );
+
+        let trailerKey = null;
+
+        if (trailerResponse.ok) {
+      const trailerData = await trailerResponse.json();
+      const trailer = trailerData.results.find(
+        (video: any) =>
+          video.site === "YouTube" &&
+          video.type === "Trailer"
+      );
+
+      trailerKey = trailer?.key ?? null;
+    }
+    
+        const movieResponse = await fetch(
             `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}`
         );
-    
-        const movieDetails = await userFavorite.json();
+
+        const movieDetails = await movieResponse.json();
             
         const favoriteMovie = {
         id: movieDetails.id,
@@ -27,6 +44,7 @@ export async function GET() {
         thumbnailUrl: movieDetails.backdrop_path
             ? `https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`
             : "",
+            trailerKey,
         }
         return favoriteMovie;
     })

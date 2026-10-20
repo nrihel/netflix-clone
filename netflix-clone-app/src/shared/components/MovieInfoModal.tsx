@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ReactPlayer from "react-player";
 import { Dialog, DialogContent } from "../ui/Dialog"
 import { IMovie } from "@/types/movie.types";
 import Image from "next/image";
+import useUser from "@/stores/user.store";
+import axios from "axios";
 
 interface IMovieInfoModalProps {
     showInfoModal: boolean;
@@ -15,6 +17,27 @@ const MovieInfoModal = ({
     movieData 
 }: IMovieInfoModalProps) => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const { updateUser, updateFavorites, user } = useUser
+
+    const isFavorite = useMemo(() => {
+        return user?.favorites.includes(movieData?.id || "")
+    }, [user, movieData]);
+
+    const toggleFavorites = async () => {
+        try {
+            if(isFavorite) {
+                await axios.delete("/api/favorite", {
+                    data: { movieId: movieData?.id },
+                });
+            } else {
+                await axios.post("/api/favorite", { movieId: movieData?.id });
+            }
+            updateUser()
+            updateFavorites()
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handlePlayButtonClick = () => {
         setIsPlaying(true);
@@ -66,9 +89,10 @@ const MovieInfoModal = ({
                             </button>
                             <button className="bg-transparent border-2 rounded-full p-2 border-white 
                             cursor-pointer"
+                            onClick={toggleFavorites}
                             >
                                 <Image 
-                                    src="/assets/plus.svg" 
+                                    src={`/assets/${isFavorite ? "white-tick" : "plus"}.svg`}
                                     width={23} 
                                     height={23} 
                                     alt="Add" 
