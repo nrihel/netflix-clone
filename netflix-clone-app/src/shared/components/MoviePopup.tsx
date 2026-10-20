@@ -1,8 +1,10 @@
 import { IMovie } from "@/types/movie.types";
 import Image from "next/image";
 import ReactPlayer from "react-player";
-import React from "react";
+import React, { useMemo } from "react";
 import { useRef, useState } from "react";
+import useUser from "@/stores/user.store";
+import axios from "axios";
 
 const MoviePopup = ({ 
     movie, 
@@ -14,6 +16,11 @@ const MoviePopup = ({
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const [isVideoPlaying, setIsVideoPlaying] = useState(false);
     const fullscreenRef = useRef<HTMLDivElement>(null);
+    const { user, updateUser, updateFavorites} = useUser()
+
+    const isFavorite = useMemo(() => {
+        return user?.favorites.includes(movie.id);
+    }, [user, movie]);
 
         const handlePlayButtonClick = () => {
             if (videoRef.current) {
@@ -22,6 +29,20 @@ const MoviePopup = ({
                 fullscreenRef.current?.requestFullscreen();
             }
         };
+
+        const toggleFavorites = async (movieId: string) => {
+            try {
+                if(isFavorite) {
+                    await axios.delete("/api/favorite", { data: movieId });
+                } else {
+                    await axios.post("/api/favorite", { movieId });
+                }
+                updateUser();
+                updateFavorites();
+            } catch (error) {
+                console.log(error);
+            }
+        }
 
     return (
         <div className="absolute -left-8 w-80 z-10 -top-16 rounded-md text-base
@@ -82,10 +103,10 @@ const MoviePopup = ({
                         </button>
                         <button className="bg-[#2a2a2a99] border-2 rounded-full p-2 
                         border-[#ffffff80] cursor-pointer"
-                        onClick={handlePlayButtonClick}
+                        onClick={() => toggleFavorites(movie.id)}
                         >
                             <Image 
-                                src={"/assets/plus.svg"} 
+                                src={`/assets/${isFavorite ? "white-tick" : "plus"}.svg`} 
                                 width={20} 
                                 height={20} 
                                 alt="Add" 
