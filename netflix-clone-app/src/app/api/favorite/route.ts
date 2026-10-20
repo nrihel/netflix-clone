@@ -42,7 +42,7 @@ export async function DELETE(req: NextRequest) {
         );
 
         return NextResponse.json(
-            { message: "Movie added to favorites" },
+            { message: "Movie removed from favorites" },
             {status: 200}
         );
     } catch (error) {

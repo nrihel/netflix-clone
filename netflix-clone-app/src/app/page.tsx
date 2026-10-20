@@ -1,5 +1,6 @@
 "use client"
 import Billboard from "@/shared/components/Billboard";
+import FavoriteList from "@/shared/components/FavoriteList";
 import MovieList from "@/shared/components/MovieList";
 import Navbar from "@/shared/components/Navbar";
 import useUser from "@/stores/user.store"
@@ -17,6 +18,7 @@ export default function Home() {
     <Navbar />
     <Billboard />
     <MovieList />
+    <FavoriteList />
     </div>
   );
 }
