@@ -10,15 +10,34 @@ export async function GET() {
         await connectToDB();
 
         const user = await User.findOne({ 
-            email: currentUser.email 
-        });
+            email: currentUser.email,
+        }).populate("favorites"); 
 
-        return NextResponse.json({favorites: user.favorites}, { status: 200 });
+
+        const movieId = user.favorites[0];
+        
+        const userFavorite = await fetch(
+            `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}`
+            );
+        const movieDetails = await userFavorite.json();
+            
+        return {
+        id: movieDetails.id,
+        title: movieDetails.title,
+        description: movieDetails.overview,
+        thumbnailUrl: movieDetails.backdrop_path
+            ? `https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`
+            : "",
+        };
+    
+        return NextResponse.json(
+            {favorites: user.favorites}, 
+            { status: 200 });
     } catch (error) {
         console.log(error);
-            return NextResponse.json(
-                { message: "Internal server error" },
-                { status: 500 }
-            );
+        return NextResponse.json(
+            { message: "Internal server error" },
+            { status: 500 }
+        );
     }
 }

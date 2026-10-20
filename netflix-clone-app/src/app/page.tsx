@@ -7,7 +7,7 @@ import useUser from "@/stores/user.store"
 import { useEffect } from "react"
 
 export default function Home() {
-  const {updateUser } = useUser();
+  const { updateUser } = useUser();
 
   useEffect(() => {
     updateUser();

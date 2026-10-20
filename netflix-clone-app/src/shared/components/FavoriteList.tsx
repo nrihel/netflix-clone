@@ -1,9 +1,10 @@
 import useUser from "@/stores/user.store";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Movies from "./Movies";
 
 const FavoriteList = () => {
     const { favorites, updateFavorites } = useUser();
+    console.log(favorites);
 
     useEffect(() => {
         updateFavorites();
@@ -15,6 +16,5 @@ const FavoriteList = () => {
     </div>
     );
 };
-
 
 export default FavoriteList;
