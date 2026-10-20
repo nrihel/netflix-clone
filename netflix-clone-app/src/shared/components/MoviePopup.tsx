@@ -5,7 +5,6 @@ import React, { useMemo } from "react";
 import { useRef, useState } from "react";
 import useUser from "@/stores/user.store";
 import axios from "axios";
-import { NextResponse } from "next/server";
 
 const MoviePopup = ({ 
     movie, 
@@ -41,10 +40,6 @@ const MoviePopup = ({
                 updateUser();
                 updateFavorites();
 
-                return NextResponse.json(
-                    { message: "Movie added to favortites" },
-                    {status: 200}
-                );
             } catch (error) {
                 console.log(error);
             }

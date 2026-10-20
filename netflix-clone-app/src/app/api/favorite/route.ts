@@ -6,9 +6,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     try {
-        const {currentUser} = await serverAuth();
-
         await connectToDB();
+        const {currentUser} = await serverAuth();
 
         const { movieId } = await req.json();
 
@@ -18,7 +17,7 @@ export async function POST(req: NextRequest) {
         );
 
         return NextResponse.json(
-            { message: "Movie added to favortites" },
+            { message: "Movie added to favorites" },
             {status: 200}
         );
     } catch (error) {
@@ -32,15 +31,19 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     try {
-        const {currentUser} = await serverAuth();
-
         await connectToDB();
+        const {currentUser} = await serverAuth();
 
         const { movieId } = await req.json();
 
         await User.updateOne(
             { email: currentUser.email },
             { $pull: { favorites: movieId } }
+        );
+
+        return NextResponse.json(
+            { message: "Movie added to favorites" },
+            {status: 200}
         );
     } catch (error) {
         console.log(error);
