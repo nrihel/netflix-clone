@@ -17,7 +17,7 @@ const MovieInfoModal = ({
     movieData 
 }: IMovieInfoModalProps) => {
     const [isPlaying, setIsPlaying] = useState(false);
-    const { updateUser, updateFavorites, user } = useUser
+    const { updateUser, updateFavorites, user } = useUser()
 
     const isFavorite = useMemo(() => {
         return user?.favorites.includes(movieData?.id || "")
