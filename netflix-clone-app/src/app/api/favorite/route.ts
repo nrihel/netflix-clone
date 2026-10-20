@@ -11,14 +11,6 @@ export async function POST(req: NextRequest) {
         await connectToDB();
 
         const { movieId } = await req.json();
-        const isMovieExist = await Movie.findById(movieId);
-
-        if(!isMovieExist) {
-            return NextResponse.json(
-                { message: "Invalid movie id" },
-                {status: 400 }
-            );
-        }
 
         await User.updateOne(
             { email: currentUser.email },
@@ -45,14 +37,6 @@ export async function DELETE(req: NextRequest) {
         await connectToDB();
 
         const { movieId } = await req.json();
-        const isMovieExist = await Movie.findById(movieId);
-
-        if(!isMovieExist) {
-            return NextResponse.json(
-                { message: "Invalid movie id" },
-                {status: 400 }
-            );
-        }
 
         await User.updateOne(
             { email: currentUser.email },

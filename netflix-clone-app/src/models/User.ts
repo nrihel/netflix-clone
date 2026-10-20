@@ -18,7 +18,7 @@ const userSchema = new Schema(
     image: {
         type: String,
     },
-    favorites: [{ type: Schema.Types.ObjectId, ref: "Movie"}],
+    favorites: [Number],
 },
 { timestamps: true }
 );

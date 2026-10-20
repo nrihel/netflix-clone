@@ -11,7 +11,7 @@ export async function GET() {
 
         const user = await User.findOne({ 
             email: currentUser.email 
-        }).populate("favorites");
+        });
 
         return NextResponse.json({favorites: user.favorites}, { status: 200 });
     } catch (error) {

@@ -5,6 +5,7 @@ import React, { useMemo } from "react";
 import { useRef, useState } from "react";
 import useUser from "@/stores/user.store";
 import axios from "axios";
+import { NextResponse } from "next/server";
 
 const MoviePopup = ({ 
     movie, 
@@ -33,12 +34,17 @@ const MoviePopup = ({
         const toggleFavorites = async (movieId: string) => {
             try {
                 if(isFavorite) {
-                    await axios.delete("/api/favorite", { data: movieId });
+                    await axios.delete("/api/favorite", { data: { movieId }});
                 } else {
                     await axios.post("/api/favorite", { movieId });
                 }
                 updateUser();
                 updateFavorites();
+
+                return NextResponse.json(
+                    { message: "Movie added to favortites" },
+                    {status: 200}
+                );
             } catch (error) {
                 console.log(error);
             }
