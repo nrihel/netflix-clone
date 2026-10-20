@@ -31,7 +31,7 @@ const MoviePopup = ({
             }
         };
 
-        const toggleFavorites = async (movieId: string) => {
+        const toggleFavorites = async (movieId: string | number) => {
             try {
                 if(isFavorite) {
                     await axios.delete("/api/favorite", { data: { movieId }});

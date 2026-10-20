@@ -8,7 +8,7 @@ import MovieInfoModal from "./MovieInfoModal";
 
 const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
     const [movieData, setMovieData] = useState<IMovie | null>(null);
-    const [movieID, setMovieId] = useState<number | null>(null);
+    const [movieID, setMovieId] = useState<number | null | string>(null);
     const [showInfoModal, setShowInfoModal] = useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
