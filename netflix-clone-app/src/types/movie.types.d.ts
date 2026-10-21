@@ -12,7 +12,7 @@ interface IMovie {
 }
 
 interface IRecommendedMovie {
-    recommendation: IMovie[];
+    recommendation: string;
     reason: string;
 }
 

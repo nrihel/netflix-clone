@@ -48,8 +48,6 @@ const NetflixGPTModal = ({
         };
 
         const handleRecommendedMovie = async () => {
-            setIsRecommendedMovieModalOpen(true);
-            return;
             try {
                 const ai = new GoogleGenAI({
                     apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY,
@@ -95,6 +93,7 @@ const NetflixGPTModal = ({
 
         const cleanedText = text.replace(/```json\s*|\s*```/g, "")
         const output = JSON.parse(cleanedText);
+        console.log("Gemini response:", output);
 
         setRecommendedMovie(output);
         setIsRecommendedMovieModalOpen(true);
