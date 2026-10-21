@@ -55,7 +55,7 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
                         left: -500,
                         behavior: "smooth",
                         })}
-                        className="relative shrink-0 bg-white rounded-full px-2 
+                        className="relative shrink-0 bg-[#6d6d6eb3] rounded-full px-2 
                             cursor-pointer z-2"
                     >
                         ❮
@@ -100,7 +100,7 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
                     left: 500,
                     behavior: "smooth",
                     })}
-                    className="relative bg-white rounded-full cursor-pointer px-2 z-[2]"
+                    className="relative bg-[#6d6d6eb3] rounded-full cursor-pointer px-2 z-[2]"
                 >
                     ❯
                 </button>

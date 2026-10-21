@@ -11,4 +11,9 @@ interface IMovie {
     trailerKey?: string | null;
 }
 
-export { IMovie };
+interface IRecommendedMovie {
+    recommendation: IMovie[];
+    reason: string;
+}
+
+export { IMovie, IRecommendedMovie };
