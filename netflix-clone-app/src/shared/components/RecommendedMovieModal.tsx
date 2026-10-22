@@ -1,9 +1,10 @@
 import { IMovie, IRecommendedMovie } from "@/types/movie.types";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { Sparkles } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { clsx } from "cn";
 import Image from "next/image";
+import ReactPlayer from "react-player";
 
 interface IRecommendedMovieModalProps {
     isRecommendedMovieModalOpen: boolean;
@@ -18,25 +19,18 @@ const RecommendedMovieModal = ({
     recommendedMovie,
     movies,
 }: IRecommendedMovieModalProps) => {
-    const [isMoviePlaying, setIsMoviePlaying] = useState(false);
+    const [playingMovie, setPlayingMovie] = useState<IMovie | null>(null);
     const [selectedMovie, setSelectedMovie] = useState<IMovie | null>(null);
-    const videoRef = useRef<HTMLVideoElement>(null);
+    const names = Array.isArray(recommendedMovie?.recommendation)
+        ? recommendedMovie.recommendation
+        : [];
 
-    const filterRecommendedMovie = movies.filter(
-        (movie) =>
-        movie.title.toLowerCase() ===
-        recommendedMovie?.recommendation.toLowerCase()
-);
-
-    const handlePlayMovie = async (recommendedMovie: IMovie) => {
-        if(videoRef.current) {
-            videoRef.current.src = recommendedMovie.videoUrl;
-            videoRef.current.poster = recommendedMovie.thumbnailUrl;
-            await videoRef.current.play()
-            setIsMoviePlaying(true);
-            videoRef.current.requestFullscreen()
-        }
-    };
+    const filterRecommendedMovie = movies.filter((movie) =>
+        names.some(
+        (title) =>
+        title.toLowerCase() === movie.title.toLowerCase()
+        )
+    );
 
     return ( 
     <Dialog 
@@ -55,13 +49,21 @@ const RecommendedMovieModal = ({
                 </DialogHeader>
 
                 <div className="flex flex-col gap-4">
-                    <video ref={videoRef} className={clsx({ hidden: !isMoviePlaying })} />
+                    {playingMovie?.trailerKey && (
+                    <ReactPlayer
+                        src={`https://www.youtube.com/watch?v=${playingMovie.trailerKey}`}
+                        playing
+                        controls
+                        width="100%"
+                        height="350px"
+                    />
+                    )}
                     {filterRecommendedMovie.map((recommendedMovie, index) => (
                         <div key={recommendedMovie.id} className="flex gap-3.5 border-b border-[#404040] rounded-sm
                         p-8 items-center cursor-pointer"
                         onMouseEnter={() => setSelectedMovie(recommendedMovie)}
                         onMouseLeave={() => setSelectedMovie(null)}
-                        onClick={() => handlePlayMovie(recommendedMovie)}
+                        onClick={() => setPlayingMovie(recommendedMovie)}
                         >
                             <div className="text-[#d2d2d2] text-2xl">{index + 1}</div>
                             <div className="relative cursor-pointer">
@@ -80,10 +82,10 @@ const RecommendedMovieModal = ({
                                     </div>
                                 ) : null}
                                 <Image 
-                                    className="object-cover rounded-sm min-w-[130px] max-h-[74]"
+                                    className="object-cover rounded-sm min-w-[200px] max-h-[112]"
                                     src={recommendedMovie.thumbnailUrl}
-                                    width={130}
-                                    height={74}
+                                    width={200}
+                                    height={112}
                                     alt={recommendedMovie.title}
                                 />
                             </div>

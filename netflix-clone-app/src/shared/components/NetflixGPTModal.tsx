@@ -72,9 +72,14 @@ const NetflixGPTModal = ({
                         )}
                         User preferences: ${JSON.stringify(preferences, null, 2)}
                         Task:
-                        - Recommend the best movie(s) from the list.
-                        - Explain briefly why you chose it.
-                        - Return response in JSON with keys: "recommendation" and "reason".
+                        - Recommend 3 different movies from the provided list that best match the user's preferences.
+                        - Return valid JSON in this exact format:
+                            {
+                            "recommendation": ["Movie Title 1", "Movie Title 2", "Movie Title 3"],
+                            "reason": "Briefly explain your choices"
+                            }
+
+                        - Use exact movie titles from the provided list.
                         `,
                     },
                 ],
@@ -101,7 +106,7 @@ const NetflixGPTModal = ({
             console.log(error);
         };
     };
-
+ 
     const fetchMovies = async () => {
         try {
             const {data} = await axios.get("/api/movies")
