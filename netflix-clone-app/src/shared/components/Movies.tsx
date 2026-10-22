@@ -45,6 +45,8 @@ const Movies = ({ movies, label }: { movies: IMovie[]; label: string }) => {
         setShowInfoModal(true);
     }
 
+    if (movies.length === 0) return null;
+
     return (
         <>
             <div className="flex flex-col gap-2 relative my-[3vw] px-[5%]">

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef } from "react";
 import ReactPlayer from "react-player";
 import { Dialog, DialogContent } from "../ui/Dialog"
 import { IMovie } from "@/types/movie.types";
@@ -11,6 +11,9 @@ interface IMovieInfoModalProps {
     setShowInfoModal: (value: boolean) => void;
     movieData: IMovie | null;
 }
+
+const playerContainerRef = useRef<HTMLDivElement>(null);
+
 const MovieInfoModal = ({ 
     showInfoModal, 
     setShowInfoModal, 
@@ -42,6 +45,9 @@ const MovieInfoModal = ({
 
     const handlePlayButtonClick = () => {
         setIsPlaying(true);
+        playerContainerRef.current
+        ?.requestFullscreen()
+        .catch(console.error);
     };
     
     return (
@@ -50,7 +56,10 @@ const MovieInfoModal = ({
             <div className="flex flex-col gap-4 w-full">
                 <div className="relative">
                     {movieData?.trailerKey ? (
-                        <div className="w-full h-[350px] overflow-hidden">
+                        <div 
+                            ref={playerContainerRef}
+                            className="w-full h-[350px] overflow-hidden fullscreen:w-screen fullscreen:h-screen fullscreen:bg-black">
+                            
                             <ReactPlayer
                                 src={`https://www.youtube.com/watch?v=${movieData.trailerKey}`}
                                 width="100%"
