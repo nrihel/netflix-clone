@@ -23,7 +23,7 @@ export async function GET() {
         if (trailerResponse.ok) {
       const trailerData = await trailerResponse.json();
       const trailer = trailerData.results.find(
-        (video: any) =>
+        (video: { site: string; type: string; key: string }) =>
           video.site === "YouTube" &&
           video.type === "Trailer"
       );

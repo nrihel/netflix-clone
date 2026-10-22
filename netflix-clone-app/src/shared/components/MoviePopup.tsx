@@ -19,8 +19,8 @@ const MoviePopup = ({
     const { user, updateUser, updateFavorites} = useUser()
 
     const isFavorite = useMemo(() => {
-        return user?.favorites.includes(movie.id);
-    }, [user, movie]);
+        return user?.favorites.includes(Number(movie.id)) ?? false;
+        }, [user, movie]);
 
         const handlePlayButtonClick = () => {
             if (videoRef.current) {

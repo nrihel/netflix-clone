@@ -9,7 +9,7 @@ import { BsGithub } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 
-const signup = () => {
+const Signup = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -108,4 +108,4 @@ const signup = () => {
     );
 };
 
-export default signup;
+export default Signup;

@@ -20,7 +20,8 @@ const MovieInfoModal = ({
     const { updateUser, updateFavorites, user } = useUser()
 
     const isFavorite = useMemo(() => {
-        return user?.favorites.includes(movieData?.id || "")
+        if (movieData?.id == null) return false;
+        return user?.favorites.includes(Number(movieData.id)) ?? false;
     }, [user, movieData]);
 
     const toggleFavorites = async () => {

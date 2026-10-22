@@ -17,7 +17,7 @@ export async function GET() {
         const data = await response.json();
 
         const movies = await Promise.all(
-  data.results.map(async (movie: any) => {
+  data.results.map(async (movie: { id: number; title: string; overview: string; backdrop_path: string | null }) => {
     const trailerResponse = await fetch(
       `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${process.env.TMDB_API_KEY}`
     );
@@ -27,7 +27,7 @@ export async function GET() {
     if (trailerResponse.ok) {
       const trailerData = await trailerResponse.json();
       const trailer = trailerData.results.find(
-        (video: any) =>
+        (video: { site: string; type: string; key: string }) =>
           video.site === "YouTube" &&
           video.type === "Trailer"
       );
