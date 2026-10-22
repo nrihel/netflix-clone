@@ -12,14 +12,13 @@ interface IMovieInfoModalProps {
     movieData: IMovie | null;
 }
 
-const playerContainerRef = useRef<HTMLDivElement>(null);
-
 const MovieInfoModal = ({ 
     showInfoModal, 
     setShowInfoModal, 
     movieData 
 }: IMovieInfoModalProps) => {
     const [isPlaying, setIsPlaying] = useState(false);
+    const playerContainerRef = useRef<HTMLDivElement>(null);
     const { updateUser, updateFavorites, user } = useUser()
 
     const isFavorite = useMemo(() => {
