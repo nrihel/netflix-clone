@@ -22,6 +22,8 @@ const RecommendedMovieModal = ({
     const [playingMovie, setPlayingMovie] = useState<IMovie | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState<IMovie | null>(null);
+    const playerContainerRef = useRef<HTMLDivElement>(null);
+
     const names = Array.isArray(recommendedMovie?.recommendation)
         ? recommendedMovie.recommendation
         : [];
@@ -33,19 +35,33 @@ const RecommendedMovieModal = ({
         )
     );
 
-    const handlePlayMovie = async (movie: IMovie) => {
+     useEffect(() => {
+  const handleFullscreenChange = () => {
+        if (!document.fullscreenElement) {
+        setIsPlaying(false);
+        setPlayingMovie(null);
+        }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+        document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    }, []);
+
+    const handlePlayMovie = (movie: IMovie) => {
         if (!movie.trailerKey) return;
+
+    const container = playerContainerRef.current;
+        if (!container) return; 
 
         setPlayingMovie(movie);
         setIsPlaying(true);
 
-        try {
-            await playerContainerRef.current?.requestFullscreen();
-        } catch (error) {
-            console.error("Fullscreen error:", error);
-            setIsPlaying(false);
-            setPlayingMovie(null);
-        }
+    container.requestFullscreen().catch((error) => {
+        console.error("Fullscreen failed:", error);
+        setIsPlaying(false);
+        setPlayingMovie(null);
+    });
     };
 
     return ( 
@@ -64,34 +80,28 @@ const RecommendedMovieModal = ({
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="flex flex-col gap-4">
+                <div
+                    ref={playerContainerRef}
+                    className="fixed top-0 left-0 w-px h-px overflow-hidden
+                        fullscreen:inset-0 fullscreen:w-screen
+                        fullscreen:h-screen fullscreen:bg-black"
+                    >
                     {playingMovie?.trailerKey && (
-                    <div
-                        ref={playerContainerRef}
-                        className="absolute w-px h-px overflow-hidden
-                            fullscreen:w-screen fullscreen:h-screen
-                            fullscreen:bg-black"
-                        onFullscreenChange={() => {
-                            if (!document.fullscreenElement) {
-                            setIsPlaying(false);
-                            setPlayingMovie(null);
-                            }
-                        }}
-                        >
-                        {playingMovie?.trailerKey && (
-                            <ReactPlayer
-                            src={`https://www.youtube.com/watch?v=${playingMovie.trailerKey}`}
-                            playing={isPlaying}
-                            onPlaying={() => setIsPlaying(true)}
-                            onPause={() => setIsPlaying(false)}
-                            onEnded={() => setIsPlaying(false)}
-                            controls
-                            width="100%"
-                            height="100%"
-                            />
-                        )}
-                    </div>
+                        <ReactPlayer
+                        src={`https://www.youtube.com/watch?v=${playingMovie.trailerKey}`}
+                        playing={isPlaying}
+                        onPlay={() => setIsPlaying(true)}
+                        onPause={() => setIsPlaying(false)}
+                        onEnded={() => setIsPlaying(false)}
+                        controls
+                        width="100%"
+                        height="100%"
+                        />                   
                     )}
+                    
+
+                    </div>
+                    
                     {filterRecommendedMovie.map((recommendedMovie, index) => (
                         <div key={recommendedMovie.id} className="flex gap-3.5 border-b border-[#404040] rounded-sm
                         p-8 items-center cursor-pointer"
@@ -136,7 +146,6 @@ const RecommendedMovieModal = ({
                             </div>
                         </div>
                     ))}
-                </div>
             </DialogContent>
         </Dialog>
     );

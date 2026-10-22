@@ -62,7 +62,7 @@ const MoviePopup = ({
                     height="100%"
                     />
                 </div>
-
+                
                 {isVideoPlaying && (
                     <button
                     type="button"
