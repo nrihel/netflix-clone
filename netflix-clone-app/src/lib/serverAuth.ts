@@ -1,6 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/option"
 import User from "@/models/User";
 import { getServerSession } from "next-auth"
+import { connectToDB } from "./db";
 
 const serverAuth = async () => {
     try {
@@ -9,6 +10,7 @@ const serverAuth = async () => {
             throw new Error("Unauthorized");
         }
 
+        await connectToDB();
         const currentUser = await User.findOne({ email: session.user?.email });
 
         if (!currentUser) {

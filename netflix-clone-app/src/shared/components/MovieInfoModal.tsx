@@ -45,7 +45,7 @@ const MovieInfoModal = ({
     
     return (
     <Dialog open={showInfoModal} onOpenChange={() => setShowInfoModal(false)}>
-        <DialogContent className="bg-[#181818] border-none min-w-[700px] p-0">
+        <DialogContent className="bg-[#181818] border-none min-w-[700px] p-0 popupShadow">
             <div className="flex flex-col gap-4 w-full">
                 <div className="relative">
                     {movieData?.trailerKey ? (

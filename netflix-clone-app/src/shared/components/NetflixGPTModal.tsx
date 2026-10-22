@@ -16,6 +16,7 @@ import { IMovie, IRecommendedMovie } from "@/types/movie.types";
 import axios from "axios";
 import RecommendedMovieModal from "./RecommendedMovieModal";
 
+
 interface INetflixGPTModalProps {
     isNetflixGPTModalOpen: boolean;
     setIsNetflixGPTModalOpen: (isOpen: boolean) => void;
@@ -127,7 +128,7 @@ const NetflixGPTModal = ({
                 onOpenChange={() => setIsNetflixGPTModalOpen(false)}
             >
                 <DialogContent className="bg-[#1a1a1a] max-w-2xl! w-full gap-10
-                overflow-y-auto text-white border-[#333333]">
+                overflow-y-auto text-white border-[#333333] scrollbar-thin scrollbar-track-[#1a1a1a] scrollbar-thumb-[#404040]">
                     <DialogHeader>
                         <DialogTitle className="mb-2 flex gap-2 items-center text-2xl font-bold">
                             <Film className="w-6 h-6 text-[#ff0000]" />
@@ -211,7 +212,8 @@ const NetflixGPTModal = ({
                     <DialogFooter className="flex gap-6 bg-[#1a1a1a]">
                         <button 
                          className="cursor-pointer bg-[#141414] font-medium text-sm py-2 px-4 
-                        border border-[#262626] rounded-md">
+                        border border-[#262626] rounded-md"
+                        onClick={() => setIsNetflixGPTModalOpen(false)}>
                             Cancel
                         </button>
                         <button 

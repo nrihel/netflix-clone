@@ -48,7 +48,7 @@ const MoviePopup = ({
     return (
         <div className="absolute -left-8 w-80 z-10 -top-16 rounded-md text-base
         transition scale-75 hover:scale-100 hover:-translate-y-6 transition-transform
-        duration-300 ease-in-out"
+        duration-300 ease-in-out popupShadow"
         >
             <div
                 ref={fullscreenRef}

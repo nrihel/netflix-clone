@@ -8,7 +8,7 @@ import {
     DropdownMenuItem, 
     DropdownMenuSeparator, 
     DropdownMenuTrigger 
-} from "./Dropdown-Menu";
+} from "../ui/Dropdown-Menu";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";

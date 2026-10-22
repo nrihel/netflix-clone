@@ -69,7 +69,8 @@ const RecommendedMovieModal = ({
         open={isRecommendedMovieModalOpen}
         onOpenChange={() => setIsRecommendedMovieModalOpen(false)}
         >
-            <DialogContent className="w-[95vw] max-w-[900px]! max-h-[85vh] overflow-y-auto px-6 py-8 bg-[#181818] border-none">
+            <DialogContent className="w-[95vw] max-w-[900px]! px-4 py-8 bg-[#181818] border-white">
+                <div className="max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-track-[#181818] scrollbar-thumb-[#404040]">
                 <DialogHeader className="flex gap-0">
                     <DialogTitle className="mb-4 text-2xl font-medium text-white flex item-center gap-2">
                         <Sparkles className="w-6 h-6" />
@@ -86,6 +87,7 @@ const RecommendedMovieModal = ({
                         fullscreen:inset-0 fullscreen:w-screen
                         fullscreen:h-screen fullscreen:bg-black"
                     >
+                    <>
                     {playingMovie?.trailerKey && (
                         <ReactPlayer
                         src={`https://www.youtube.com/watch?v=${playingMovie.trailerKey}`}
@@ -98,7 +100,22 @@ const RecommendedMovieModal = ({
                         height="100%"
                         />                   
                     )}
-                    
+                    </>
+                    <>
+                    {isPlaying && (
+                    <button
+                    type="button"
+                    onClick={() => {
+                        if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                        }
+                        setIsPlaying(false);
+                    }}
+                    className="absolute top-26 right-10 z-50 rounded bg-white px-4 py-2 text-black cursor-pointer"
+                    >
+                    Back
+                    </button>
+                    )}</>
 
                     </div>
                     
@@ -146,6 +163,7 @@ const RecommendedMovieModal = ({
                             </div>
                         </div>
                     ))}
+                </div>
             </DialogContent>
         </Dialog>
     );
